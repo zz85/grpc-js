@@ -1,0 +1,19 @@
+syntax = "proto3";
+package zz85.simple;
+
+option java_multiple_files = true;
+option java_package = "fakejava.zz85.simple";
+
+import "entities.proto";
+
+/**
+  * Visitor Service
+  */
+service SimpleService {
+  rpc SimpleCall (SimpleRequest) returns (SimpleResponse) {
+  }
+
+  rpc SimpleStreaming (SimpleRequest) returns (stream SimpleResponse) {
+
+  }
+}

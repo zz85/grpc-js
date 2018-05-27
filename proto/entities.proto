@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "google/protobuf/wrappers.proto";
+
+message SimpleRequest {
+    string string = 1;
+    google.protobuf.StringValue name = 2;
+}
+
+message SimpleResponse {
+}
+
+message MooCow {
+    uint32 id = 1;
+}
