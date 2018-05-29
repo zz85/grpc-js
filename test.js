@@ -46,7 +46,8 @@ function findServices() {
     });
 
     console.log('services', services);
-    services.forEach(handleService);
+
+    return services;
 }
 
 function handleService(service) {
@@ -57,7 +58,6 @@ function handleService(service) {
         const props = methods[name];
         const path = service.fqName + '/' + name;
         console.log(path, props);
-        // responseType
 
         const requestStream = !!props.requestStream;
         const responseStream = !!props.responseStream;
@@ -81,10 +81,26 @@ function handleService(service) {
 
     const Client = grpc.makeGenericClientConstructor(templates);
     serviceClients[service.name] = Client;
+
+    // TODO generate client wrapper functions?
+    /*
+    client.SimpleCallHelper((RequestTypeInstance, method, Response, props) => {
+        obj = RequestType.create()
+        // do something
+        
+        method(obj, (err, res) => {
+            res.parse
+        });
+
+    })
+
+    */
 }
 
 const serviceClients = {};
-findServices();
+
+const services = findServices();
+services.forEach(handleService);
 
 console.log('serviceClients', serviceClients);
 
@@ -99,13 +115,15 @@ let replOpts = {
 let rs = repl.start(replOpts);
 rs.context.serviceClients = serviceClients;
 
+/*
 // connect
 client = new serviceClients.SimpleService('localhost:50052', grpc.credentials.createInsecure());
 
-client.SimpleCall(client.SimpleCall.requestType.create().finish(), (err, result) => {
+client.SimpleCall(client.SimpleCall.requestType.encode(client.SimpleCall.requestType.create()).finish(), (err, result) => {
     const results = client.SimpleCall.responseType.decode(result);
 })
 
 const static = require('./proto/proto-static');
 // const moo = new static.zz85.SimpleService()
 const x = static.SimpleRequest.create();
+*/
